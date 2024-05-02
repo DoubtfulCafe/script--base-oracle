@@ -326,3 +326,24 @@ INSERT INTO TBL_DIRECCIONES (DireccionID, NUMERO_CASA, CiudadID) VALUES (2, 'Dir
 INSERT INTO TBL_DIRECCIONES (DireccionID, NUMERO_CASA, CiudadID) VALUES (3, 'Dirección 3', 3);
 INSERT INTO TBL_DIRECCIONES (DireccionID, NUMERO_CASA, CiudadID) VALUES (4, 'Dirección 4', 4);
 INSERT INTO TBL_DIRECCIONES (DireccionID, NUMERO_CASA, CiudadID) VALUES (5, 'Dirección 5', 5);
+
+
+
+INSERT INTO TBL_PUNTO_EMISION (PuntoEmisionID, Nombre, CodigoSAR, SucursalID)
+VALUES (1, 'Punto Emisión A', 123456, 1);
+
+INSERT INTO TBL_PUNTO_EMISION (PuntoEmisionID, Nombre, CodigoSAR, SucursalID)
+VALUES (2, 'Punto Emisión B', 654321, 2);
+
+INSERT INTO TBL_PUNTO_EMISION (PuntoEmisionID, Nombre, CodigoSAR, SucursalID)
+VALUES (3, 'Punto Emisión C', 987654, 1);
+
+
+INSERT INTO TBL_RESOLUCION (ResolucionID, CAI, InicioRango, FinRango, Actual, FechaLimite, TipoDocumentoID, PuntoEmisionID)
+VALUES (1, 123456789, 1000, 2000, 1500, TO_DATE('2024-06-30', 'YYYY-MM-DD'), 1, 1);
+
+INSERT INTO TBL_RESOLUCION (ResolucionID, CAI, InicioRango, FinRango, Actual, FechaLimite, TipoDocumentoID, PuntoEmisionID)
+VALUES (2, 987654321, 3000, 4000, 3500, TO_DATE('2024-07-31', 'YYYY-MM-DD'), 2, 2);
+
+INSERT INTO TBL_RESOLUCION (ResolucionID, CAI, InicioRango, FinRango, Actual, FechaLimite, TipoDocumentoID, PuntoEmisionID)
+VALUES (3, 456789123, 5000, 6000, 5500, TO_DATE('2024-08-31', 'YYYY-MM-DD'), 1, 1);

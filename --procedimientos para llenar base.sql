@@ -165,3 +165,129 @@ BEGIN
     P_Llenar_Tabla_Ciudades;
 END;
 /
+
+
+CREATE OR REPLACE PROCEDURE P_Llenar_Tabla_Codigos_Postales AS
+BEGIN
+    FOR i IN 1..1000 LOOP
+        BEGIN
+            INSERT INTO TBL_CODIGOS_POSTALES (CodigoPostalID, CodigoPostal, CiudadID)
+            VALUES (i, 10000 + i, MOD(i,1000) + 1); -- Asigna cada código postal a una de las 1000 ciudades existentes
+        EXCEPTION
+            WHEN DUP_VAL_ON_INDEX THEN
+                NULL; -- Ignorar intentos de inserción de claves duplicadas
+        END;
+    END LOOP;
+END;
+/
+
+BEGIN
+    P_Llenar_Tabla_Codigos_Postales;
+END;
+/
+
+
+CREATE OR REPLACE PROCEDURE P_Llenar_Tabla_Direcciones AS
+BEGIN
+    FOR i IN 1..1000 LOOP
+        BEGIN
+            INSERT INTO TBL_DIRECCIONES (DireccionID, NUMERO_CASA, CiudadID)
+            VALUES (i, 'Direccion_' || i, MOD(i,100) + 1); -- Asigna cada dirección a una de las 100 ciudades existentes
+        EXCEPTION
+            WHEN DUP_VAL_ON_INDEX THEN
+                NULL; -- Ignorar intentos de inserción de claves duplicadas
+        END;
+    END LOOP;
+END;
+/
+
+BEGIN
+    P_Llenar_Tabla_Direcciones;
+END;
+/
+
+
+CREATE OR REPLACE PROCEDURE P_Llenar_Tabla_Persona AS
+BEGIN
+    FOR i IN 1..1000 LOOP
+        DECLARE
+            v_FechaAleatoria DATE;
+        BEGIN
+            -- Calcular una fecha de nacimiento aleatoria dentro del rango de 1940 a 2002
+            v_FechaAleatoria := TO_DATE('01-01-1940', 'DD-MM-YYYY') + DBMS_RANDOM.VALUE(0, TO_DATE('01-01-2002', 'DD-MM-YYYY') - TO_DATE('01-01-1940', 'DD-MM-YYYY'));
+            
+            INSERT INTO TBL_PERSONA (DNI, Nombres, Apellidos, FechaNacimiento, Email, TelefonoID, GeneroID)
+            VALUES (i, 'Nombre_' || i, 'Apellido_' || i, v_FechaAleatoria, 'correo_' || i || '@example.com', MOD(i,100) + 1, MOD(i,2) + 1); -- Asigna valores ficticios para Nombres, Apellidos, FechaNacimiento, Email, TelefonoID, y GeneroID
+        EXCEPTION
+            WHEN DUP_VAL_ON_INDEX THEN
+                NULL; -- Ignorar intentos de inserción de claves duplicadas
+        END;
+    END LOOP;
+END;
+/
+
+BEGIN
+    P_Llenar_Tabla_Persona;
+END;
+/
+
+
+
+CREATE OR REPLACE PROCEDURE P_LLENAR_TABLA_EMPLEADO AS
+    v_Rol VARCHAR2(100);
+    v_Puesto VARCHAR2(100);
+    v_DNI NUMBER;
+    v_EmpresaID NUMBER;
+BEGIN
+    FOR i IN 1..1000 LOOP
+        -- Asignar valores ficticios para Rol y Puesto
+        v_Rol := CASE MOD(i, 2)
+                    WHEN 0 THEN 'Gerente'
+                    ELSE 'Empleado'
+                END;
+        v_Puesto := CASE MOD(i, 3)
+                        WHEN 0 THEN 'Administrativo'
+                        WHEN 1 THEN 'Técnico'
+                        ELSE 'Operario'
+                    END;
+        
+        -- Obtener un DNI aleatorio de las personas ya insertadas
+        SELECT DNI INTO v_DNI FROM TBL_PERSONA WHERE ROWNUM = 1 ORDER BY DBMS_RANDOM.VALUE;
+        
+        -- Obtener un ID de empresa aleatorio de las empresas ya insertadas
+        SELECT EmpresaID INTO v_EmpresaID FROM TBL_EMPRESA WHERE ROWNUM = 1 ORDER BY DBMS_RANDOM.VALUE;
+        
+        INSERT INTO TBL_EMPLEADO (EmpleadoID, Rol, Puesto, DNI, EmpresaID)
+        VALUES (i, v_Rol, v_Puesto, v_DNI, v_EmpresaID);
+    END LOOP;
+END;
+/
+BEGIN
+    P_LLENAR_TABLA_EMPLEADO;
+END;
+/
+
+
+CREATE OR REPLACE PROCEDURE P_LLENAR_TABLA_USUARIO AS
+BEGIN
+    FOR i IN 1..1000 LOOP
+        DECLARE
+            v_DNI NUMBER;
+        BEGIN
+            -- Obtener un DNI aleatorio de las personas ya insertadas
+            SELECT DNI INTO v_DNI FROM TBL_PERSONA WHERE ROWNUM = 1 ORDER BY DBMS_RANDOM.VALUE;
+            
+            INSERT INTO TBL_USUARIO (UsuarioID, DNI)
+            VALUES (i, v_DNI);
+        EXCEPTION
+            WHEN DUP_VAL_ON_INDEX THEN
+                NULL; -- Ignorar intentos de inserción de claves duplicadas
+        END;
+    END LOOP;
+END;
+/
+
+BEGIN
+    P_LLENAR_TABLA_USUARIO;
+END;
+/
