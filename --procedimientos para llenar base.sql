@@ -125,3 +125,43 @@ BEGIN
     P_Llenar_Tabla_Estados_Provincias;
 END;
 /
+
+
+CREATE OR REPLACE PROCEDURE P_Llenar_Tabla_Estados_Provincias AS
+BEGIN
+    FOR i IN 1..100 LOOP
+        BEGIN
+            INSERT INTO TBL_ESTADOS_PROVINCIAS (EstadoProvinciaID, Nombre, PaisID)
+            VALUES (i, 'EstadoProvincia_' || i, MOD(i,10) + 1); -- La función MOD se utiliza para asignar aleatoriamente un ID de país entre 1 y 10
+        EXCEPTION
+            WHEN DUP_VAL_ON_INDEX THEN
+                NULL; -- Ignorar intentos de inserción de claves duplicadas
+        END;
+    END LOOP;
+END;
+/
+
+BEGIN
+    P_Llenar_Tabla_Estados_Provincias;
+END;
+/
+
+
+CREATE OR REPLACE PROCEDURE P_Llenar_Tabla_Ciudades AS
+BEGIN
+    FOR i IN 1..1000 LOOP
+        BEGIN
+            INSERT INTO TBL_CIUDADES (CiudadID, Nombre, EstadoProvinciaID)
+            VALUES (i, 'Ciudad_' || i, MOD(i,100) + 1); -- Asigna cada ciudad a uno de los 100 estados o provincias existentes
+        EXCEPTION
+            WHEN DUP_VAL_ON_INDEX THEN
+                NULL; -- Ignorar intentos de inserción de claves duplicadas
+        END;
+    END LOOP;
+END;
+/
+
+BEGIN
+    P_Llenar_Tabla_Ciudades;
+END;
+/
