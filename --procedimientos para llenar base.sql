@@ -291,3 +291,47 @@ BEGIN
     P_LLENAR_TABLA_USUARIO;
 END;
 /
+
+
+
+CREATE OR REPLACE PROCEDURE P_LLENAR_TABLA_PROPIEDAD AS
+    v_TipoPropiedadID NUMBER;
+    v_EstadoReservaID NUMBER;
+    v_Nombre VARCHAR2(255);
+    v_Descripcion VARCHAR2(1000);
+    v_Precio NUMBER;
+    v_DireccionID NUMBER;
+    v_EmpleadoID NUMBER;
+BEGIN
+    FOR i IN 1..1000 LOOP
+        -- Obtener un TipoPropiedadID aleatorio entre 1 y 5
+        v_TipoPropiedadID := ROUND(DBMS_RANDOM.VALUE(1, 5));
+        
+        -- Obtener un EstadoReservaID aleatorio entre 1 y 2
+        v_EstadoReservaID := ROUND(DBMS_RANDOM.VALUE(1, 2));
+        
+        -- Asignar valores ficticios para Nombre, Descripcion y Precio
+        v_Nombre := 'Propiedad_' || i;
+        v_Descripcion := 'Descripción de la propiedad ' || i;
+        v_Precio := ROUND(DBMS_RANDOM.VALUE(50000, 500000), 2); -- Precio aleatorio entre 50000 y 500000
+        
+        -- Obtener un DireccionID aleatorio entre 1 y 500
+        v_DireccionID := ROUND(DBMS_RANDOM.VALUE(1, 500));
+        
+        -- Obtener un EmpleadoID aleatorio entre 1 y 500
+        v_EmpleadoID := ROUND(DBMS_RANDOM.VALUE(1, 500));
+        
+        BEGIN
+            INSERT INTO TBL_PROPIEDAD (PropiedadID, TipoPropiedadID, EstadoReservaID, Nombre, Descripcion, Precio, DireccionID, EmpleadoID)
+            VALUES (i, v_TipoPropiedadID, v_EstadoReservaID, v_Nombre, v_Descripcion, v_Precio, v_DireccionID, v_EmpleadoID);
+        EXCEPTION
+            WHEN DUP_VAL_ON_INDEX THEN
+                NULL; -- Ignorar intentos de inserción de claves duplicadas
+        END;
+    END LOOP;
+END;
+/
+BEGIN
+    P_LLENAR_TABLA_PROPIEDAD;
+END;
+/
