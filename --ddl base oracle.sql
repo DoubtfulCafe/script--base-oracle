@@ -206,20 +206,13 @@ CREATE TABLE TBL_RESERVA (
     Adelanto NUMBER,
     EmpleadoID NUMBER,
     UsuarioID NUMBER,
-    EstadoReservaID NUMBER,
+    PropiedadID NUMBER,
     FOREIGN KEY (UsuarioID) REFERENCES TBL_USUARIO(UsuarioID),
     FOREIGN KEY (EmpleadoID) REFERENCES TBL_EMPLEADO(EmpleadoID),
-    FOREIGN KEY (EstadoReservaID) REFERENCES TBL_ESTADO_RESERVA(EstadoReservaID)
-);
-
--- Tabla de relación intermedia para manejar la relación de muchos a muchos entre reservas y propiedades
-CREATE TABLE TBL_RESERVA_PROP ( 
-    ReservaID NUMBER,
-    PropiedadID NUMBER,
-    PRIMARY KEY (ReservaID, PropiedadID),
-    FOREIGN KEY (ReservaID) REFERENCES TBL_RESERVA(ReservaID),
     FOREIGN KEY (PropiedadID) REFERENCES TBL_PROPIEDAD(PropiedadID)
 );
+
+
 
 -- Tabla para almacenar información sobre encabezados de facturas
 CREATE TABLE TBL_ENCABEZADO_FACTURA (
@@ -347,3 +340,13 @@ VALUES (2, 987654321, 3000, 4000, 3500, TO_DATE('2024-07-31', 'YYYY-MM-DD'), 2, 
 
 INSERT INTO TBL_RESOLUCION (ResolucionID, CAI, InicioRango, FinRango, Actual, FechaLimite, TipoDocumentoID, PuntoEmisionID)
 VALUES (3, 456789123, 5000, 6000, 5500, TO_DATE('2024-08-31', 'YYYY-MM-DD'), 1, 1);
+
+   
+
+
+
+
+
+
+
+
